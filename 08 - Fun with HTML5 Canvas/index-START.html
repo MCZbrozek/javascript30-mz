@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress CommaExpressionJS -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -7,6 +8,65 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+  const canvas = document.querySelector('#draw')
+  const ctx = canvas.getContext('2d')
+
+//  size up to the exact width of the window
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+
+  ctx.strokeStyle = '#BADA55'
+  ctx.lineJoin = 'round'
+  ctx.lineCap = 'round'
+  ctx.lineWidth = 50
+  ctx.globalCompositeOperation = 'color-dodge'
+
+  let isDrawing = false //this is the flag we set to false, when we click down it will be set to true.
+
+  let lastX = 0
+  let lastY = 0
+  let hue = 0 // check out https://mothereffinghsl.com/
+  let direction = true
+
+  function draw(e) {
+    if(!isDrawing) return //This will stop the function from running when they are not moused down.
+    console.log(e)
+    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`
+    ctx.beginPath()
+    //start from
+    ctx.moveTo(lastX, lastY)
+    //go to
+    ctx.lineTo(e.offsetX, e.offsetY)
+    ctx.stroke()
+    // [lastX, lastY] = [e.offsetX, e.offsetY]; - Got a warning that this is too clever
+    // The array above is the same as saying ↓↓ "destructuring an array"
+    lastX = e.offsetX
+    lastY = e.offsetY
+    hue++ // increment our hue by one to cross the color spectrum 'hue' = 360
+    if (hue >= 360) {
+      hue = 0
+    }
+    if(ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+      direction = !direction // if our line is >100 then flip direction flag
+    }
+    if (direction) {
+      ctx.lineWidth++ //increment the line width depending on the direction toward or away from 100.
+    }else {
+      ctx.lineWidth--
+    }
+  }
+
+  // These event listeners below ↓↓ are changing the flag value of 'isDrawing' that we set above - default false
+  canvas.addEventListener('mousedown', (e) => {
+    isDrawing = true
+            // [lastX, lastY] = [e.offsetX, e.offsetY] - This wasn't working for some reason
+    lastX = e.offsetX
+    lastY = e.offsetY
+  }) //
+
+  canvas.addEventListener('mousemove', draw)
+  canvas.addEventListener('mouseup', () => isDrawing = false)
+  canvas.addEventListener('mouseout', () => isDrawing = false)
 </script>
 
 <style>
