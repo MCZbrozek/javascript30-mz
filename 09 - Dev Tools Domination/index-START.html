@@ -18,29 +18,55 @@
     }
 
     // Regular
-
+console.log('hello')
     // Interpolated
+console.log('Hello I am %s string', '☻')
+    // console.log(`hello i am ${something}`)
 
     // Styled
+console.log('%c I am some great text', 'font-size:50px; background:red')
 
     // warning!
-
+console.warn('oh nooo!')
     // Error :|
+    console.error('Remain Calm!!!')
 
     // Info
+    console.info('Crocodiles eat 3-4 people per year! ')
 
     // Testing
+    const p = document.querySelector('p')
+console.assert(p.classList.contains('ouch'), 'That is wrong')
 
-    // clearing
+    // clearing - clears your console
+// console.clear()
 
     // Viewing DOM Elements
-
+    console.log(p)
+    console.dir(p) // allows you to open up the class list
+    console.clear()
     // Grouping together
+    dogs.forEach(dog => {
+      console.group(`${dog.name}`) // add groupCollapsed to have a cleaner grouping, click to expand in console
+      console.log(`This is ${dog.name}`)
+      console.log(`${dog.name} is ${dog.age * 7} dog years old`)
+      console.groupEnd(`${dog.name}`) // will create a heading that displays the console logs under each dog name
+    })
 
     // counting
+    console.count('Mike')
+    console.count('Mike')
+    console.count('Mike')
 
     // timing
+  console.time('fetching data') // like an actual fetch or asynch would be good here
+    fetch('https://api.github.com/users/wesbos')
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd('fetching data')
+      })
 
+    console.table(dogs)
   </script>
 </body>
 </html>
