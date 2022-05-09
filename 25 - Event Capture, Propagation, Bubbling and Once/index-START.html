@@ -40,8 +40,28 @@
   }
 </style>
 
-<button></button>
+<button>Button</button>
 <script>
+ const divs = document.querySelectorAll('div')
+ const button = document.querySelector('button')
+
+ function logText(e) {
+   // e.stopPropagation() //stop bubbling, stop triggering events on the parent.
+   // console.log(this.classList.value)
+   // console.log(this)
+ }
+
+
+ divs.forEach(div => div.addEventListener('click', logText, {
+   capture: false,
+   once: true //listen for a click, then unbind so that there are no future clicks on that object
+ }))
+
+button.addEventListener('click', () => {
+  console.log('clicked!')
+}, {
+  once: true
+ })
 
 </script>
 </body>
